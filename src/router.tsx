@@ -22,7 +22,14 @@ export const routes: RouteObject[] = [
   },
 ];
 
+// Currently using a memory router, not the 'correct' option but browser history and navigation
+// to arbitrary pages is not currently wanted behaviour.
 export const router = createMemoryRouter(routes, {
-  // Only required if swapping to createBrowserRouter
-  // basename: import.meta.env.BASE_URL,
+  // Both of these together will give better a href on a Link element.
+  // This stops nonsensical navigation tooltips when the BASE_URL is not '/'
+  basename: import.meta.env.BASE_URL,
+  // It is required to force the initial navigation to the BASE_URL as otherwise it is '/'
+  // As '/' would not be valid for any BASE_URL other than '/' it causes an error
+  // Could also use window.location.pathname
+  initialEntries: [import.meta.env.BASE_URL],
 });
