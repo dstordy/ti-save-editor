@@ -23,5 +23,6 @@ export const routes: RouteObject[] = [
 ];
 
 export const router = createMemoryRouter(routes, {
-  basename: import.meta.env.BASE_URL,
+  // Only required if swapping to createBrowserRouter
+  // basename: import.meta.env.BASE_URL,
 });
