@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithImmer } from "jotai/immer";
-import { KeyedValueType, ValueType } from "./baseTypes";
+import { KeyedValueType, toKeyedValueToMap, ValueType } from "./baseTypes";
+import { CouncilorState } from "./section/councilorState";
 import { FactionState } from "./section/factionState";
 import { PlayerState } from "./section/playerState";
 
@@ -9,14 +10,17 @@ export type GameStateSection<T> = KeyedValueType<T>[] | Record<string, never>;
 export const GameStateSections = {
   FactionState: "PavonisInteractive.TerraInvicta.TIFactionState",
   PlayerState: "PavonisInteractive.TerraInvicta.TIPlayerState",
+  CouncilorState: "PavonisInteractive.TerraInvicta.TICouncilorState",
 } as const;
 
 type GameSectionsType =
   typeof GameStateSections[keyof typeof GameStateSections];
 
-interface GameStates extends Record<GameSectionsType, unknown> {
+interface GameStates
+  extends Record<GameSectionsType, GameStateSection<unknown>> {
   [GameStateSections.FactionState]: GameStateSection<FactionState>;
   [GameStateSections.PlayerState]: GameStateSection<PlayerState>;
+  [GameStateSections.CouncilorState]: GameStateSection<CouncilorState>;
 }
 
 export interface SaveData {
@@ -37,6 +41,10 @@ export function getItemsRaw<T>(section: GameStateSection<T>) {
 
 export function getItems<T>(section: GameStateSection<T>) {
   return getItemsRaw(section).map((v) => v.Value);
+}
+
+export function getItemsMap<T>(section: GameStateSection<T>) {
+  return toKeyedValueToMap(getItemsRaw(section));
 }
 
 export function getItem<T>(section: GameStateSection<T>, id: number) {

@@ -6,6 +6,10 @@ const editorRoutes: RouteObject[] = [
     path: "factions",
     element: <pages.editor.FactionsOverview />,
   },
+  {
+    path: "councilors",
+    element: <pages.editor.CouncilorOverview />,
+  },
 ];
 
 export const routes: RouteObject[] = [

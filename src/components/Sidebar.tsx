@@ -52,6 +52,7 @@ export function Sidebar() {
       >
         <MenuItem label="Start" to="/" end />
         <MenuItem label="Factions" to="/factions" />
+        <MenuItem label="Councilors" to="/councilors" />
       </VStack>
     </Box>
   );

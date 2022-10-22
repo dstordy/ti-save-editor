@@ -119,7 +119,7 @@ export interface FactionState extends EntityInstanceType {
   updateShipDesignsFlag: boolean;
   updateHabPlanningFlag: boolean;
   resourceIncomeDeficiencies: string[];
-  mostPowerfulHumanEnemy: ValueType<number>;
+  mostPowerfulHumanEnemy: ValueType<number> | null;
   selfAssessement: string;
   AISavingTarget: AISavingTarget;
   focusGoal: null | TypedValueType<number>;

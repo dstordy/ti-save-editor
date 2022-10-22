@@ -28,7 +28,12 @@ export interface Vec4 extends Vec3 {
   w: number;
 }
 
-export type EntityReferenceList = ValueType<number>[];
+export type EntityReference = ValueType<number>;
+export type TypedEntityReference = TypedValueType<number>;
+export type OptionalEntityReference = EntityReference | null;
+export type OptionalTypedEntityReference = TypedValueType<number> | null;
+
+export type EntityReferenceList = EntityReference[];
 
 export interface DateTimeValue {
   year: number;
@@ -63,4 +68,12 @@ export function setKeyedValue<T>(
   if (item != undefined) {
     item.Value = value;
   }
+}
+
+export function toKeyedValueToMap<T>(container: KeyedValueType<T>[]) {
+  const map = new Map<number | undefined, T>();
+  for (const { Key, Value } of container) {
+    map.set(Key.value, Value);
+  }
+  return map;
 }

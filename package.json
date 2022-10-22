@@ -19,6 +19,7 @@
     "immer": "^9.0.15",
     "jotai": "^1.8.5",
     "json5": "^2.2.1",
+    "lodash-es": "^4.17.21",
     "numeral": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
+    "@types/lodash-es": "^4.17.6",
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
