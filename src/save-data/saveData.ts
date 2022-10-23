@@ -90,3 +90,9 @@ export function useGetItems<T extends GameSectionsType>(section: T) {
   assertSaveLoaded(saveData);
   return getItems(saveData, section);
 }
+
+export function useGetItem<T extends GameSectionsType>(section: T, id: number) {
+  const saveData = useSaveDataValue();
+  assertSaveLoaded(saveData);
+  return getItem(saveData, section, id);
+}
