@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { sortBy } from "lodash-es";
 import {
+  assertSaveLoaded,
   GameStateSections,
   getItems,
   getItemsMap,
@@ -21,8 +22,7 @@ import {
 
 export function CouncilorList() {
   const saveData = useSaveDataValue();
-
-  if (!saveData) return null;
+  assertSaveLoaded(saveData);
 
   const councilors = sortBy(
     getItems(saveData, GameStateSections.CouncilorState),

@@ -14,8 +14,7 @@ import { ResourceType, storableResources } from "@/save-data/resources";
 import {
   GameStateSections,
   getItem,
-  getItems,
-  useSaveDataValue,
+  useGetItems,
   useSetSaveData,
 } from "@/save-data/saveData";
 import { FactionState } from "@/save-data/section/factionState";
@@ -83,11 +82,7 @@ function FactionResourceRow(props: { factionData: FactionState }) {
 }
 
 export function FactionsResourcesTable() {
-  const saveData = useSaveDataValue();
-
-  if (!saveData) return null;
-
-  const factions = getItems(saveData, GameStateSections.FactionState);
+  const factions = useGetItems(GameStateSections.FactionState);
 
   return (
     <TableContainer>

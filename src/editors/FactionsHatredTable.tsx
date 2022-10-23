@@ -10,6 +10,7 @@ import {
 import { FormattedInput } from "@/components/FormattedInput";
 import { getKeyedValue, setKeyedValue } from "@/save-data/baseTypes";
 import {
+  assertSaveLoaded,
   GameStateSections,
   getItem,
   getItems,
@@ -81,10 +82,9 @@ function FactionHatredRow(props: {
 export function FactionsHatredTable() {
   const saveData = useSaveDataValue();
 
-  if (!saveData) return null;
+  assertSaveLoaded(saveData);
 
   const factions = getItems(saveData, GameStateSections.FactionState);
-
   const factionIds = factions.map((v) => v.ID.value);
 
   return (
