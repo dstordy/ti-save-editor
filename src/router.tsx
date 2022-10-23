@@ -4,7 +4,10 @@ import * as pages from "./pages";
 const editorRoutes: RouteObject[] = [
   {
     path: "factions",
-    element: <pages.editor.FactionsOverview />,
+    children: [
+      { path: "", element: <pages.editor.FactionsOverview /> },
+      { path: ":factionId", element: <pages.editor.FactionDetail /> },
+    ],
   },
   {
     path: "councilors",
@@ -18,10 +21,15 @@ export const routes: RouteObject[] = [
     element: <pages.Root />,
     children: [
       {
-        index: true,
-        element: <pages.Start />,
+        errorElement: <pages.ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <pages.Start />,
+          },
+          ...editorRoutes,
+        ],
       },
-      ...editorRoutes,
     ],
   },
 ];

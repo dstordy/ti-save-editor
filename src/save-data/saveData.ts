@@ -14,8 +14,7 @@ export const GameStateSections = {
 } as const;
 
 type GameSectionsType =
-  | typeof GameStateSections[keyof typeof GameStateSections]
-  | string;
+  typeof GameStateSections[keyof typeof GameStateSections];
 
 interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
   [GameStateSections.FactionState]: FactionState;
@@ -38,6 +37,18 @@ export interface SaveData {
 }
 
 export const saveDataAtom = atomWithImmer<SaveData | undefined>(undefined);
+
+export class NoSaveDataException extends Error {
+  constructor() {
+    super("Save data is not loaded");
+  }
+}
+
+export function assertSaveLoaded(
+  saveData: SaveData | undefined
+): asserts saveData is SaveData {
+  if (saveData == undefined) throw new NoSaveDataException();
+}
 
 export const useSaveData = () => useAtom(saveDataAtom);
 export const useSaveDataValue = () => useAtomValue(saveDataAtom);
@@ -72,4 +83,10 @@ export function getItem<T extends GameSectionsType>(
   id: number
 ) {
   return getItemsRaw(saveData, section).find((v) => v.Key.value === id)?.Value;
+}
+
+export function useGetItems<T extends GameSectionsType>(section: T) {
+  const saveData = useSaveDataValue();
+  assertSaveLoaded(saveData);
+  return getItems(saveData, section);
 }
