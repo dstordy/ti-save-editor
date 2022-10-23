@@ -27,10 +27,11 @@ function ResourceCell(props: {
   const [focused, setFocused] = useState(false);
   const setSaveData = useSetSaveData();
   const updateResourceValue = (resource: ResourceType, value: number) => {
-    setSaveData((v) => {
-      if (!v) return;
+    setSaveData((draft) => {
+      if (!draft) return;
       const factionData = getItem(
-        v.gamestates[GameStateSections.FactionState],
+        draft,
+        GameStateSections.FactionState,
         props.factionData.ID.value
       );
       if (factionData) factionData.resources[resource] = value;
@@ -86,9 +87,7 @@ export function FactionsResourcesTable() {
 
   if (!saveData) return null;
 
-  const factions = getItems(
-    saveData.gamestates[GameStateSections.FactionState]
-  );
+  const factions = getItems(saveData, GameStateSections.FactionState);
 
   return (
     <TableContainer>

@@ -25,13 +25,11 @@ export function CouncilorList() {
   if (!saveData) return null;
 
   const councilors = sortBy(
-    getItems(saveData.gamestates[GameStateSections.CouncilorState]),
+    getItems(saveData, GameStateSections.CouncilorState),
     [(v) => v.faction?.value]
   ).filter((v) => v.faction != undefined);
 
-  const factionMap = getItemsMap(
-    saveData.gamestates[GameStateSections.FactionState]
-  );
+  const factionMap = getItemsMap(saveData, GameStateSections.FactionState);
 
   return (
     <TableContainer maxHeight="70vh" overflowY="scroll">

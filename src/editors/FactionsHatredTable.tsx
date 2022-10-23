@@ -21,10 +21,11 @@ import { FactionState } from "@/save-data/section/factionState";
 function HatredCell(props: { factionData: FactionState; targetId: number }) {
   const setSaveData = useSetSaveData();
   const updateHatred = (value: number) => {
-    setSaveData((v) => {
-      if (!v) return;
+    setSaveData((draft) => {
+      if (!draft) return;
       const factionData = getItem(
-        v.gamestates[GameStateSections.FactionState],
+        draft,
+        GameStateSections.FactionState,
         props.factionData.ID.value
       );
       if (factionData && Array.isArray(factionData.factionHate))
@@ -82,9 +83,7 @@ export function FactionsHatredTable() {
 
   if (!saveData) return null;
 
-  const factions = getItems(
-    saveData.gamestates[GameStateSections.FactionState]
-  );
+  const factions = getItems(saveData, GameStateSections.FactionState);
 
   const factionIds = factions.map((v) => v.ID.value);
 
@@ -129,7 +128,8 @@ export function FactionsHatredTable() {
             {factionIds.map((id) => (
               <Td key={id} textAlign="right">
                 {getItem(
-                  saveData.gamestates[GameStateSections.FactionState],
+                  saveData,
+                  GameStateSections.FactionState,
                   id
                 )?.assessedAlienHateOfMe.toFixed(1)}
               </Td>

@@ -14,14 +14,23 @@ export const GameStateSections = {
 } as const;
 
 type GameSectionsType =
-  typeof GameStateSections[keyof typeof GameStateSections];
+  | typeof GameStateSections[keyof typeof GameStateSections]
+  | string;
 
-interface GameStates
-  extends Record<GameSectionsType, GameStateSection<unknown>> {
-  [GameStateSections.FactionState]: GameStateSection<FactionState>;
-  [GameStateSections.PlayerState]: GameStateSection<PlayerState>;
-  [GameStateSections.CouncilorState]: GameStateSection<CouncilorState>;
+interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
+  [GameStateSections.FactionState]: FactionState;
+  [GameStateSections.PlayerState]: PlayerState;
+  [GameStateSections.CouncilorState]: CouncilorState;
 }
+
+type GameSectionTypeArray<T extends GameSectionsType> = KeyedValueType<
+  GameStateSectionTypes[T]
+>[];
+type GameStates = {
+  [key in keyof GameStateSectionTypes]: GameStateSection<
+    GameStateSectionTypes[key]
+  >;
+};
 
 export interface SaveData {
   currentID: ValueType<number>;
@@ -35,22 +44,32 @@ export const useSaveDataValue = () => useAtomValue(saveDataAtom);
 export const useSetSaveData = () => useSetAtom(saveDataAtom);
 export const useSaveDataIsLoaded = () => useSaveDataValue() != undefined;
 
-export function getItemsRaw<T>(section: GameStateSection<T>) {
-  return Array.isArray(section) ? section : [];
+export function getItemsRaw<T extends GameSectionsType>(
+  saveData: SaveData,
+  section: T
+): GameSectionTypeArray<T> {
+  const sectionData = saveData.gamestates[section];
+  return Array.isArray(sectionData) ? sectionData : [];
 }
 
-export function getItems<T>(section: GameStateSection<T>) {
-  return getItemsRaw(section).map((v) => v.Value);
+export function getItems<T extends GameSectionsType>(
+  saveData: SaveData,
+  section: T
+) {
+  return getItemsRaw(saveData, section).map((v) => v.Value);
 }
 
-export function getItemsMap<T>(section: GameStateSection<T>) {
-  return toKeyedValueToMap(getItemsRaw(section));
+export function getItemsMap<T extends GameSectionsType>(
+  saveData: SaveData,
+  section: T
+) {
+  return toKeyedValueToMap(getItemsRaw(saveData, section));
 }
 
-export function getItem<T>(section: GameStateSection<T>, id: number) {
-  return getItemsRaw(section).find((v) => v.Key.value === id)?.Value;
-}
-
-export function getFactions(data: SaveData) {
-  return getItems(data.gamestates[GameStateSections.FactionState]);
+export function getItem<T extends GameSectionsType>(
+  saveData: SaveData,
+  section: T,
+  id: number
+) {
+  return getItemsRaw(saveData, section).find((v) => v.Key.value === id)?.Value;
 }
