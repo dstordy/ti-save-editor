@@ -7,10 +7,93 @@ import { PlayerState } from "./section/playerState";
 
 export type GameStateSection<T> = KeyedValueType<T>[] | Record<string, never>;
 
+const GoalStates = [
+  "BuildFullStation",
+  "FoundBase",
+  "AssembleFleet",
+  "SurveilEarth",
+  "TransportCouncilorsWithFleet",
+  "CaptureNation_Clean",
+  "CaptureNation_Dirty",
+  "FoundMaxStation",
+  "SecureEarthSpace",
+  "DefendWithFleet",
+  "BuildMiningBase",
+  "DevelopNation",
+  "PillageNation",
+  "ExpandNation",
+  "MilitarizeNation",
+  "AttackWithFleet",
+  "ProspectSites",
+  "BuildFullBase",
+  "RepairFleet",
+  "NonAggressionPact",
+  "ResupplyFleet",
+  "FoundPlatform",
+  "BuildRefuellingStation",
+  "WarOnFaction",
+  "CaptureHab",
+  "NeutralizeNation",
+  "JoinFleet",
+] as const;
+
 export const GameStateSections = {
+  BodySate: "PavonisInteractive.TerraInvicta.TISpaceBodyState",
+  HabSiteState: "TIHabSiteState",
+  LagrangePointState: "PavonisInteractive.TerraInvicta.TILagrangePointState",
+  OrbitState: "PavonisInteractive.TerraInvicta.TIOrbitState",
+  TimeState: "PavonisInteractive.TerraInvicta",
+  RegionState: "PavonisInteractive.TerraInvicta",
+  LaunchFacilityState: "PavonisInteractive.TerraInvicta.TILaunchFacilityState",
+  MissionControlFacilityState:
+    "PavonisInteractive.TerraInvicta.TIMissionControlFacilityState",
+  SpaceDefensesFacilityState:
+    "PavonisInteractive.TerraInvicta.TISpaceDefensesFacilityState",
+  RegionAlienFacilityState:
+    "PavonisInteractive.TerraInvicta.TIRegionAlienFacilityState",
+  RegionAlienActivityState:
+    "PavonisInteractive.TerraInvicta.TIRegionAlienActivityState",
+  RegionUFOLandingState:
+    "PavonisInteractive.TerraInvicta.TIRegionUFOLandingState",
+  RegionUFOCrashdownState:
+    "PavonisInteractive.TerraInvicta.TIRegionUFOCrashdownState",
+  RegionXenoformingState:
+    "PavonisInteractive.TerraInvicta.TIRegionXenoformingState",
+  NationState: "PavonisInteractive.TerraInvicta.TINationState",
+  ControlPoint: "PavonisInteractive.TerraInvicta.TIControlPoint",
+  ArmyState: "PavonisInteractive.TerraInvicta.TIArmyState",
+  CouncilorState: "PavonisInteractive.TerraInvicta.TICouncilorState",
+  SpaceFleetState: "PavonisInteractive.TerraInvicta.TISpaceFleetState",
+  OrgState: "PavonisInteractive.TerraInvicta.TIOrgState",
+  HabState: "PavonisInteractive.TerraInvicta.TIHabState",
+  TimeEvent: "PavonisInteractive.TerraInvicta.TITimeEvent",
   FactionState: "PavonisInteractive.TerraInvicta.TIFactionState",
   PlayerState: "PavonisInteractive.TerraInvicta.TIPlayerState",
-  CouncilorState: "PavonisInteractive.TerraInvicta.TICouncilorState",
+  SpaceShipState: "PavonisInteractive.TerraInvicta.TISpaceShipState",
+  SectorState: "PavonisInteractive.TerraInvicta.TISectorState",
+  HabModuleState: "PavonisInteractive.TerraInvicta.TIHabModuleState",
+  WarState: "PavonisInteractive.TerraInvicta.TIWarState",
+  FederationState: "PavonisInteractive.TerraInvicta.TIFederationState",
+  MissionPhaseState: "PavonisInteractive.TerraInvicta.TIMissionPhaseState",
+  NotificationQueueState:
+    "PavonisInteractive.TerraInvicta.TINotificationQueueState",
+  EffectsState: "PavonisInteractive.TerraInvicta.TIEffectsState",
+  GlobalResearchState: "PavonisInteractive.TerraInvicta.TIGlobalResearchState",
+  GlobalValuesState: "PavonisInteractive.TerraInvicta.TIGlobalValuesState",
+  PromptQueueState: "PavonisInteractive.TerraInvicta.TIPromptQueueState",
+  MissionState: "PavonisInteractive.TerraInvicta.TIMissionState",
+  MegafaunaArmyState: "PavonisInteractive.TerraInvicta.TIMegafaunaArmyState",
+  SpaceCombatState: "PavonisInteractive.TerraInvicta.TISpaceCombatState",
+  SpaceCombatProjectileState:
+    "PavonisInteractive.TerraInvicta.TISpaceCombatProjectileState",
+  AdHocOrbitState: "PavonisInteractive.TerraInvicta.TIAdHocOrbitState",
+  ...(Object.fromEntries(
+    GoalStates.map(
+      (v) => [v, `PavonisInteractive.TerraInvicta.FactionGoal_${v}`] as const
+    )
+  ) as {
+    [G in typeof GoalStates[number]]: `PavonisInteractive.TerraInvicta.FactionGoal_${G}`;
+  }),
 } as const;
 
 type GameSectionsType =
