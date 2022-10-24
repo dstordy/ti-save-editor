@@ -11,10 +11,14 @@ import { CouncilorState } from "./section/councilorState";
 import { FactionState } from "./section/factionState";
 import { GlobalResearchState } from "./section/globalResearchState";
 import { GlobalValuesState } from "./section/globalValuesState";
+import { HabModuleState } from "./section/habModuleState";
+import { HabSiteState } from "./section/habSiteState";
+import { HabState } from "./section/habState";
 import { NationState } from "./section/nationState";
 import { OrgState } from "./section/orgState";
 import { PlayerState } from "./section/playerState";
 import { RegionState } from "./section/regionState";
+import { SectorState } from "./section/sectorState";
 
 export type GameStateSection<T> = OptionalKeyedValueArray<T>;
 
@@ -120,6 +124,10 @@ interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
   [GameStateSections.NationState]: NationState;
   [GameStateSections.GlobalValuesState]: GlobalValuesState;
   [GameStateSections.GlobalResearchState]: GlobalResearchState;
+  [GameStateSections.HabSiteState]: HabSiteState;
+  [GameStateSections.HabState]: HabState;
+  [GameStateSections.SectorState]: SectorState;
+  [GameStateSections.HabModuleState]: HabModuleState;
 }
 
 type GameSectionTypeArray<T extends GameSectionsType> = KeyedValueType<
