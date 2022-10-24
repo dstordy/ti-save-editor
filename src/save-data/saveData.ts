@@ -1,13 +1,20 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithImmer } from "jotai/immer";
-import { KeyedValueType, toKeyedValueToMap, ValueType } from "./baseTypes";
+import {
+  KeyedValueType,
+  OptionalKeyedValueArray,
+  toKeyedValueToMap,
+  ValueType,
+} from "./baseTypes";
 import { ControlPoint } from "./section/controlPoint";
 import { CouncilorState } from "./section/councilorState";
 import { FactionState } from "./section/factionState";
+import { NationState } from "./section/nationState";
 import { OrgState } from "./section/orgState";
 import { PlayerState } from "./section/playerState";
+import { RegionState } from "./section/regionState";
 
-export type GameStateSection<T> = KeyedValueType<T>[] | Record<string, never>;
+export type GameStateSection<T> = OptionalKeyedValueArray<T>;
 
 const GoalStates = [
   "BuildFullStation",
@@ -107,6 +114,8 @@ interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
   [GameStateSections.CouncilorState]: CouncilorState;
   [GameStateSections.OrgState]: OrgState;
   [GameStateSections.ControlPoint]: ControlPoint;
+  [GameStateSections.RegionState]: RegionState;
+  [GameStateSections.NationState]: NationState;
 }
 
 type GameSectionTypeArray<T extends GameSectionsType> = KeyedValueType<

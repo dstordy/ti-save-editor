@@ -6,6 +6,10 @@ export interface TypedValue {
   $type: string;
 }
 
+export interface RefValue {
+  $ref: number;
+}
+
 export interface TypedValueType<T> extends TypedValue, ValueType<T> {}
 
 export interface KeyedValueType<T> {
@@ -27,6 +31,10 @@ export interface Vec3 {
 export interface Vec4 extends Vec3 {
   w: number;
 }
+
+export type OptionalKeyedValueArray<T> =
+  | KeyedValueType<T>[]
+  | Record<string, never>;
 
 export type EntityReference = ValueType<number>;
 export type TypedEntityReference = TypedValueType<number>;
