@@ -3,6 +3,7 @@ import { atomWithImmer } from "jotai/immer";
 import { KeyedValueType, toKeyedValueToMap, ValueType } from "./baseTypes";
 import { CouncilorState } from "./section/councilorState";
 import { FactionState } from "./section/factionState";
+import { OrgState } from "./section/orgState";
 import { PlayerState } from "./section/playerState";
 
 export type GameStateSection<T> = KeyedValueType<T>[] | Record<string, never>;
@@ -103,6 +104,7 @@ interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
   [GameStateSections.FactionState]: FactionState;
   [GameStateSections.PlayerState]: PlayerState;
   [GameStateSections.CouncilorState]: CouncilorState;
+  [GameStateSections.OrgState]: OrgState;
 }
 
 type GameSectionTypeArray<T extends GameSectionsType> = KeyedValueType<
