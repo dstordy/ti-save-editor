@@ -19,6 +19,7 @@ import { OrgState } from "./section/orgState";
 import { PlayerState } from "./section/playerState";
 import { RegionState } from "./section/regionState";
 import { SectorState } from "./section/sectorState";
+import { SpaceBodyState } from "./section/spaceBodyState";
 
 export type GameStateSection<T> = OptionalKeyedValueArray<T>;
 
@@ -53,7 +54,7 @@ const GoalStates = [
 ] as const;
 
 export const GameStateSections = {
-  BodySate: "PavonisInteractive.TerraInvicta.TISpaceBodyState",
+  SpaceBodySate: "PavonisInteractive.TerraInvicta.TISpaceBodyState",
   HabSiteState: "TIHabSiteState",
   LagrangePointState: "PavonisInteractive.TerraInvicta.TILagrangePointState",
   OrbitState: "PavonisInteractive.TerraInvicta.TIOrbitState",
@@ -128,6 +129,7 @@ interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
   [GameStateSections.HabState]: HabState;
   [GameStateSections.SectorState]: SectorState;
   [GameStateSections.HabModuleState]: HabModuleState;
+  [GameStateSections.SpaceBodySate]: SpaceBodyState;
 }
 
 type GameSectionTypeArray<T extends GameSectionsType> = KeyedValueType<
