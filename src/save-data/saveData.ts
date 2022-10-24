@@ -9,6 +9,8 @@ import {
 import { ControlPoint } from "./section/controlPoint";
 import { CouncilorState } from "./section/councilorState";
 import { FactionState } from "./section/factionState";
+import { GlobalResearchState } from "./section/globalResearchState";
+import { GlobalValuesState } from "./section/globalValuesState";
 import { NationState } from "./section/nationState";
 import { OrgState } from "./section/orgState";
 import { PlayerState } from "./section/playerState";
@@ -116,6 +118,8 @@ interface GameStateSectionTypes extends Record<GameSectionsType, unknown> {
   [GameStateSections.ControlPoint]: ControlPoint;
   [GameStateSections.RegionState]: RegionState;
   [GameStateSections.NationState]: NationState;
+  [GameStateSections.GlobalValuesState]: GlobalValuesState;
+  [GameStateSections.GlobalResearchState]: GlobalResearchState;
 }
 
 type GameSectionTypeArray<T extends GameSectionsType> = KeyedValueType<
