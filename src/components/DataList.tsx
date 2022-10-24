@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export function DataList(props: { items: [ReactNode, ReactNode][] }) {
   return (
-    <chakra.dd
+    <chakra.dl
       sx={{
         dt: {
           fontWeight: "semibold",
@@ -21,6 +21,6 @@ export function DataList(props: { items: [ReactNode, ReactNode][] }) {
           <dd>{v[1]}</dd>
         </Box>
       ))}
-    </chakra.dd>
+    </chakra.dl>
   );
 }
