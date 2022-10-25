@@ -1,4 +1,5 @@
 import { EntityInstanceType, OptionalEntityReference } from "../baseTypes";
+import { CouncilorAttributeType } from "./councilorState";
 
 export interface OrgState extends EntityInstanceType {
   displayNameWithArticle: string;
@@ -35,3 +36,27 @@ export interface OrgState extends EntityInstanceType {
   miningBonus: number;
   XPModifier: number;
 }
+
+export const orgBonusesCouncilor = [
+  "persuasion",
+  "command",
+  "investigation",
+  "espionage",
+  "administration",
+  "science",
+  "security",
+] as const;
+
+type orgBonusesCouncilorType = typeof orgBonusesCouncilor[number];
+
+export const councilorBonusTarget: {
+  [T in keyof Pick<OrgState, orgBonusesCouncilorType>]: CouncilorAttributeType;
+} = {
+  persuasion: "Persuasion",
+  command: "Command",
+  investigation: "Investigation",
+  espionage: "Espionage",
+  administration: "Administration",
+  science: "Science",
+  security: "Security",
+};

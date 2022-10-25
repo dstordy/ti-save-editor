@@ -11,25 +11,61 @@ import { sortBy } from "lodash-es";
 import {
   assertSaveLoaded,
   GameStateSections,
-  getItems,
-  getItemsMap,
+  useGetItems,
+  useItemsMap,
   useSaveDataValue,
 } from "@/save-data/saveData";
 import {
   attributesAbbreviated,
   councilorAttributes,
+  CouncilorAttributeType,
+  CouncilorState,
 } from "@/save-data/section/councilorState";
+import {
+  councilorBonusTarget,
+  orgBonusesCouncilor,
+} from "@/save-data/section/orgState";
+import * as asserts from "@/util/asserts";
 
-export function CouncilorList() {
+function CouncilorListRow(props: { councilor: CouncilorState }) {
   const saveData = useSaveDataValue();
   assertSaveLoaded(saveData);
 
-  const councilors = sortBy(
-    getItems(saveData, GameStateSections.CouncilorState),
-    [(v) => v.faction?.value]
-  ).filter((v) => v.faction != undefined);
+  const factionMap = useItemsMap(saveData, GameStateSections.FactionState);
+  const orgMap = useItemsMap(saveData, GameStateSections.OrgState);
 
-  const factionMap = getItemsMap(saveData, GameStateSections.FactionState);
+  const orgs = props.councilor.orgs.map((id) => orgMap.get(id.value));
+
+  const attrBonus: Partial<Record<CouncilorAttributeType, number>> = {};
+  for (const org of orgs) {
+    asserts.assertIsDefined(org);
+    for (const bonusAttr of orgBonusesCouncilor) {
+      const attrTarget = councilorBonusTarget[bonusAttr];
+      attrBonus[attrTarget] = (attrBonus[attrTarget] ?? 0) + org[bonusAttr];
+    }
+  }
+
+  return (
+    <Tr key={props.councilor.ID.value}>
+      <Td>
+        {factionMap.get(props.councilor.faction?.value)?.displayName ?? "None"}
+      </Td>
+      <Td>{props.councilor.displayName}</Td>
+      {councilorAttributes.map((attr) => (
+        <Td key={attr}>
+          {props.councilor.attributes[attr]}
+          {(attrBonus[attr] ?? 0) > 0 &&
+            ` / ${props.councilor.attributes[attr] + (attrBonus[attr] ?? 0)}`}
+        </Td>
+      ))}
+    </Tr>
+  );
+}
+
+export function CouncilorList() {
+  const councilors = sortBy(useGetItems(GameStateSections.CouncilorState), [
+    (v) => v.faction?.value,
+  ]).filter((v) => v.faction != undefined);
 
   return (
     <TableContainer maxHeight="70vh" overflowY="scroll">
@@ -38,7 +74,7 @@ export function CouncilorList() {
           <Tr>
             <Th colSpan={2}></Th>
             <Th colSpan={councilorAttributes.length} textAlign="center">
-              Base Stats
+              Base Stat / Org Modified
             </Th>
           </Tr>
           <Tr
@@ -59,16 +95,7 @@ export function CouncilorList() {
         </Thead>
         <Tbody>
           {councilors.map((councilor) => (
-            <Tr key={councilor.ID.value}>
-              <Td>
-                {factionMap.get(councilor.faction?.value)?.displayName ??
-                  "None"}
-              </Td>
-              <Td>{councilor.displayName}</Td>
-              {councilorAttributes.map((attr) => (
-                <Td key={attr}>{councilor.attributes[attr]}</Td>
-              ))}
-            </Tr>
+            <CouncilorListRow key={councilor.ID.value} councilor={councilor} />
           ))}
         </Tbody>
       </Table>

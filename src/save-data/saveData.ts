@@ -1,5 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { atomWithImmer } from "jotai/immer";
+import { useMemo } from "react";
 import {
   KeyedValueType,
   OptionalKeyedValueArray,
@@ -180,11 +181,12 @@ export function getItems<T extends GameSectionsType>(
   return getItemsRaw(saveData, section).map((v) => v.Value);
 }
 
-export function getItemsMap<T extends GameSectionsType>(
+export function useItemsMap<T extends GameSectionsType>(
   saveData: SaveData,
   section: T
 ) {
-  return toKeyedValueToMap(getItemsRaw(saveData, section));
+  const raw = getItemsRaw(saveData, section);
+  return useMemo(() => toKeyedValueToMap(raw), [raw]);
 }
 
 export function getItem<T extends GameSectionsType>(
